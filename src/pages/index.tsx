@@ -121,13 +121,17 @@ bg-white border border-[#e9eaf3] rounded-[30px] w-auto inline-block transition-a
           </div>
           <div>
             <div className="text-center	text-4xl text-[#4a4a4a] py-7">
-              严选技师
+              项目详情
             </div>
-            <div className="text-center	text-xl">
-              专业高品质技师，手法娴熟，给你超凡舒爽体验
-            </div>
+            <div className="text-center	text-xl">风格清晰，流畅</div>
           </div>
         </div>
+      </div>
+      <div>
+        <img
+          src="https://wds-service-1258344699.file.myqcloud.com/20/15204/png/1677837449553a3fa921a763afb62.png?version=0"
+          alt=""
+        />
       </div>
     </div>
   );
