@@ -1,7 +1,15 @@
 import type { NextPage } from "next";
 import { Carousel } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getBannerListApi } from "../request/api";
 const Index: NextPage = () => {
+  const getBannerListFunc = async () => {
+    const [err, res]: [err:requsesType | null,res:requsesType | null ]= await getBannerListApi({});
+    console.log(res);
+  };
+  useEffect(() => {
+    getBannerListFunc();
+  });
   const [swiperList, setSwiperList]: [
     swiperList: string[],
     setSwiperList: any
@@ -133,6 +141,78 @@ bg-white border border-[#e9eaf3] rounded-[30px] w-auto inline-block transition-a
           alt=""
         />
       </div>
+      <footer className="bg-white text-black py-8">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Column 1 */}
+            <div>
+              <h4 className="text-lg font-bold mb-4">Links</h4>
+              <ul>
+                <li>
+                  <a href="/">Home</a>
+                </li>
+                <li>
+                  <a href="/about">About Us</a>
+                </li>
+                <li>
+                  <a href="/services">Services</a>
+                </li>
+                <li>
+                  <a href="/contact">Contact Us</a>
+                </li>
+              </ul>
+            </div>
+            {/* Column 2 */}
+            <div>
+              <h4 className="text-lg font-bold mb-4">Menu</h4>
+              <ul>
+                <li>
+                  <a href="/menu">View Menu</a>
+                </li>
+                <li>
+                  <a href="/menu#lunch">Lunch</a>
+                </li>
+                <li>
+                  <a href="/menu#dinner">Dinner</a>
+                </li>
+                <li>
+                  <a href="/menu#drinks">Drinks</a>
+                </li>
+              </ul>
+            </div>
+            {/* Column 3 */}
+            <div>
+              <h4 className="text-lg font-bold mb-4">Address</h4>
+              <p>1234 Main St.</p>
+              <p>Anytown, USA 12345</p>
+            </div>
+            {/* Column 4 */}
+            <div>
+              <h4 className="text-lg font-bold mb-4">Follow Us</h4>
+              <ul>
+                <li>
+                  <a href="https://twitter.com/">Twitter</a>
+                </li>
+                <li>
+                  <a href="https://facebook.com/">Facebook</a>
+                </li>
+                <li>
+                  <a href="https://instagram.com/">Instagram</a>
+                </li>
+                <li>
+                  <a href="https://linkedin.com/">LinkedIn</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 text-center">
+            <p>
+              &copy; {new Date().getFullYear()} Your Website. All Rights
+              Reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
