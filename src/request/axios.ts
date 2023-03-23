@@ -14,8 +14,6 @@ instance.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么
     // console.log("请求拦截器", config);
-    config.headers["Authorization"] =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjgsImlhdCI6MTY3OTQ1NDczOSwiZXhwIjoxNjc5NzEzOTM5fQ.F-Pm2gknBtuMOmopbQ9BRTfUd_dZItuK0Grlfp_aKuA";
     return config;
   },
   (error) => {
