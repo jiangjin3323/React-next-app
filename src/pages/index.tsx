@@ -1,12 +1,24 @@
 import type { NextPage } from "next";
 import { Carousel, message } from "antd";
 import { useState, useEffect } from "react";
-import { getBannerListApi } from "../request/api";
+import { getBannerListApi, getProductListApi } from "../request/api";
 const Index: NextPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  //轮播
+  const [swiperList, setSwiperList]: [
+    swiperList: { url: string; id: number }[],
+    setSwiperList: any
+  ] = useState([]);
+
+  //产品
+  const [productList, setProductList]: [
+    productList: { img: string; name: string; title: string }[],
+    setAdvantageList: any
+  ] = useState([]);
+
   //轮播函数
   const getBannerListFunc = async () => {
-    const [err, res]: any = await getBannerListApi({});
+    const [err, res]: any = await getBannerListApi();
     if (err !== null) {
       messageApi.error(err.msg);
       return;
@@ -14,38 +26,22 @@ const Index: NextPage = () => {
     setSwiperList(res.data);
   };
 
-  //轮播
-  const [swiperList, setSwiperList]: [
-    swiperList: { url: string; id: number }[],
-    setSwiperList: any
-  ] = useState([]);
+  //产品函数
+  const getProductListFunc = async () => {
+    const [err, res]: any = await getProductListApi();
+    if (err !== null) {
+      messageApi.error(err.msg);
+      return;
+    }
+    setProductList(res.data);
+  };
 
   useEffect(() => {
     getBannerListFunc();
-  },[]);
+    getProductListFunc();
+  }, []);
 
   
-
-  const [advantageList, setAdvantageList]: [
-    advantageList: { img: string; title: string; text: string }[],
-    setAdvantageList: any
-  ] = useState([
-    {
-      img: "https://wds-service-1258344699.file.myqcloud.com/20/15204/jpg/167763868973736141f114521ec4b.jpg?version=1677638692",
-      title: "品质服务",
-      text: "高品质服务项目，满足您的按摩需求，包含休闲按摩、疼痛理疗、女性保养等三大类",
-    },
-    {
-      img: "https://wds-service-1258344699.file.myqcloud.com/20/15204/jpeg/1677641259156b6f04f8dd40d7d90.jpeg?version=0",
-      title: "专业技师",
-      text: "资深专业理疗师，缓解您的疼痛不适，专业资质认证，正规安全更方便",
-    },
-    {
-      img: "https://wds-service-1258344699.file.myqcloud.com/20/15204/png/16776393239142afb9ab9dc38928c.png?version=0",
-      title: "一键下单",
-      text: "专业线上平台，一键预约，轻松上门，享受超5星按摩推拿服务，解放时间，简单方便",
-    },
-  ]);
 
   const [featuredList, setFeaturedList]: [
     featuredList: { img: string; title: string; text: string }[],
@@ -90,7 +86,7 @@ const Index: NextPage = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-10">
-            {advantageList.map((item, index) => {
+            {productList.map((item, index) => {
               return (
                 <div
                   key={index}
@@ -99,10 +95,10 @@ bg-white border border-[#e9eaf3] rounded-[30px] w-auto inline-block transition-a
                 >
                   <img className="rounded-full" src={item.img} alt="" />
                   <div className="text-[#ff7f00] font-bold text-2xl	py-3 text-center">
-                    {item.title}
+                    {item.name}
                   </div>
                   <div className="text-[#999999] text-lg text-center	">
-                    {item.text}
+                    {item.title}
                   </div>
                 </div>
               );
