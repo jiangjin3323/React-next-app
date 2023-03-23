@@ -1,23 +1,30 @@
 import type { NextPage } from "next";
-import { Carousel } from "antd";
+import { Carousel, message } from "antd";
 import { useState, useEffect } from "react";
 import { getBannerListApi } from "../request/api";
 const Index: NextPage = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+  //轮播函数
   const getBannerListFunc = async () => {
-    const [err, res]: [err:requsesType | null,res:requsesType | null ]= await getBannerListApi({});
-    console.log(res);
+    const [err, res]: any = await getBannerListApi({});
+    if (err !== null) {
+      messageApi.error(err.msg);
+      return;
+    }
+    setSwiperList(res.data);
   };
+
+  //轮播
+  const [swiperList, setSwiperList]: [
+    swiperList: { url: string; id: number }[],
+    setSwiperList: any
+  ] = useState([]);
+
   useEffect(() => {
     getBannerListFunc();
-  });
-  const [swiperList, setSwiperList]: [
-    swiperList: string[],
-    setSwiperList: any
-  ] = useState([
-    "https://img.youpin.mi-img.com/ferriswheel/4bbc32cf_1fe0_45aa_a48f_74b9282edf9f.jpeg?w=2560&h=1080",
-    "https://img.youpin.mi-img.com/ferriswheel/f9e992cd_8a4b_4c54_81b8_a1e11ce05c06.jpeg@base@tag=imgScale&F=webp&h=1080&q=90&w=2560",
-    "https://wds-service-1258344699.file.myqcloud.com/20/15204/png/16771155064393955ae135ef021ce.png?version=1677115510",
-  ]);
+  },[]);
+
+  
 
   const [advantageList, setAdvantageList]: [
     advantageList: { img: string; title: string; text: string }[],
@@ -62,11 +69,12 @@ const Index: NextPage = () => {
   ]);
   return (
     <div>
+      {contextHolder}
       <Carousel autoplay>
-        {swiperList.map((item, index) => {
+        {swiperList.map((item) => {
           return (
-            <div className="w-full h-[530px]" key={index}>
-              <img className="w-full h-[530px]" src={item} alt="" />
+            <div className="w-full h-[530px]" key={item.id}>
+              <img className="w-full h-[530px]" src={item.url} alt="" />
             </div>
           );
         })}

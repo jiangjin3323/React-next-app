@@ -21,7 +21,7 @@ instance.interceptors.request.use(
   (error) => {
     // 对请求错误做些什么
     // console.log("请求错误", error);
-    return Promise.reject(error);
+    return Promise.reject(error?.response?.data);
   }
 );
 
