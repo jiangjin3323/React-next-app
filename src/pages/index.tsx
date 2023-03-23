@@ -10,9 +10,15 @@ const Index: NextPage = () => {
     setSwiperList: any
   ] = useState([]);
 
-  //产品
+  //产品-小米
   const [productList, setProductList]: [
-    productList: { img: string; name: string; title: string }[],
+    productList: { img: string; name: string; title: string; id: number }[],
+    setAdvantageList: any
+  ] = useState([]);
+
+  //产品-红米
+  const [RedmiProductList, setRedmiProductList]: [
+    productList: { img: string; name: string; title: string; id: number }[],
     setAdvantageList: any
   ] = useState([]);
 
@@ -26,9 +32,9 @@ const Index: NextPage = () => {
     setSwiperList(res.data);
   };
 
-  //产品函数
+  //产品函数-小米
   const getProductListFunc = async () => {
-    const [err, res]: any = await getProductListApi();
+    const [err, res]: any = await getProductListApi({ type: "xiaomi" });
     if (err !== null) {
       messageApi.error(err.msg);
       return;
@@ -36,33 +42,22 @@ const Index: NextPage = () => {
     setProductList(res.data);
   };
 
+  //产品函数-红米
+  const getRedmiProductListFunc = async () => {
+    const [err, res]: any = await getProductListApi({ type: "Redmi" });
+    if (err !== null) {
+      messageApi.error(err.msg);
+      return;
+    }
+    setRedmiProductList(res.data);
+  };
+
   useEffect(() => {
     getBannerListFunc();
     getProductListFunc();
+    getRedmiProductListFunc();
   }, []);
 
-  
-
-  const [featuredList, setFeaturedList]: [
-    featuredList: { img: string; title: string; text: string }[],
-    setFeaturedList: any
-  ] = useState([
-    {
-      img: "https://wds-service-1258344699.file.myqcloud.com/20/15204/jpg/1677825157440504f583cda746597.jpg?version=1677825159",
-      title: "休闲按摩",
-      text: "休闲养生 适用于亚健康人群",
-    },
-    {
-      img: "https://wds-service-1258344699.file.myqcloud.com/20/15204/png/16777195567354152cb9fd569ac28.png?version=1677719558",
-      title: "康养推拿",
-      text: "疼痛按摩 适用于局部疼痛活动受限人群",
-    },
-    {
-      img: "https://wds-service-1258344699.file.myqcloud.com/20/15204/png/1677722438835ea722525a91bc110.png?version=1677722440",
-      title: "女性保养",
-      text: "女性专属 纤体瘦身抗衰",
-    },
-  ]);
   return (
     <div>
       {contextHolder}
@@ -79,17 +74,17 @@ const Index: NextPage = () => {
         <div className="w-[1200px]">
           <div>
             <div className="text-center	text-4xl text-[#4a4a4a] py-7">
-              我们的优势
+              小米系列
             </div>
             <div className="text-center	text-xl">
-              24小时 · 专业正规 · 不收小费
+              性能旗舰，徕卡原生双画质，2K OLED 屏幕
             </div>
           </div>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-10">
-            {productList.map((item, index) => {
+            {productList.map((item) => {
               return (
                 <div
-                  key={index}
+                  key={item.id}
                   className="shadow-[0_2px_10px_0_rgb(25_93_194_/_7%)]
 bg-white border border-[#e9eaf3] rounded-[30px] w-auto inline-block transition-all duration-300 hover:scale-105 group !flex !flex-col justify-between p-[20px_36px]"
                 >
@@ -106,117 +101,47 @@ bg-white border border-[#e9eaf3] rounded-[30px] w-auto inline-block transition-a
           </div>
           <div>
             <div className="text-center	text-4xl text-[#4a4a4a] py-7">
-              精选服务
+              红米系列
             </div>
             <div className="text-center	text-xl">
-              休闲养生 · 疼痛按摩 · 女性专享，全人群，全需求
+              第二代骁龙8， VC 液冷散热
+              ，120W神仙秒充+30W无线秒充，5000mAh大电量
             </div>
           </div>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-10">
-            {featuredList.map((item, index) => {
+            {RedmiProductList.map((item) => {
               return (
                 <div
-                  key={index}
+                  key={item.id}
                   className="shadow-[0_2px_10px_0_rgb(25_93_194_/_7%)]
 bg-white border border-[#e9eaf3] rounded-[30px] w-auto inline-block transition-all duration-300 hover:scale-105 group !flex !flex-col justify-between p-[20px_36px]"
                 >
                   <img src={item.img} alt="" />
                   <div className="text-[#ff7f00] font-bold text-2xl	py-3 text-center">
-                    {item.title}
+                    {item.name}
                   </div>
                   <div className="text-[#999999] text-lg text-center	">
-                    {item.text}
+                    {item.title}
                   </div>
                 </div>
               );
             })}
           </div>
-          <div>
+          {/* <div>
             <div className="text-center	text-4xl text-[#4a4a4a] py-7">
               项目详情
             </div>
             <div className="text-center	text-xl">风格清晰，流畅</div>
-          </div>
+          </div> */}
         </div>
       </div>
-      <div>
+      <div className="pt-10 bg-white	">
         <img
-          src="https://wds-service-1258344699.file.myqcloud.com/20/15204/png/1677837449553a3fa921a763afb62.png?version=0"
+          className="w-full h-[810px]"
+          src="https://img.youpin.mi-img.com/ferriswheel/482d5fa5_1a5f_4649_8d63_271a9ebd8f1b.jpeg@base@tag=imgScale&F=webp&h=1080&q=90&w=2560"
           alt=""
         />
       </div>
-      <footer className="bg-white text-black py-8">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Column 1 */}
-            <div>
-              <h4 className="text-lg font-bold mb-4">Links</h4>
-              <ul>
-                <li>
-                  <a href="/">Home</a>
-                </li>
-                <li>
-                  <a href="/about">About Us</a>
-                </li>
-                <li>
-                  <a href="/services">Services</a>
-                </li>
-                <li>
-                  <a href="/contact">Contact Us</a>
-                </li>
-              </ul>
-            </div>
-            {/* Column 2 */}
-            <div>
-              <h4 className="text-lg font-bold mb-4">Menu</h4>
-              <ul>
-                <li>
-                  <a href="/menu">View Menu</a>
-                </li>
-                <li>
-                  <a href="/menu#lunch">Lunch</a>
-                </li>
-                <li>
-                  <a href="/menu#dinner">Dinner</a>
-                </li>
-                <li>
-                  <a href="/menu#drinks">Drinks</a>
-                </li>
-              </ul>
-            </div>
-            {/* Column 3 */}
-            <div>
-              <h4 className="text-lg font-bold mb-4">Address</h4>
-              <p>1234 Main St.</p>
-              <p>Anytown, USA 12345</p>
-            </div>
-            {/* Column 4 */}
-            <div>
-              <h4 className="text-lg font-bold mb-4">Follow Us</h4>
-              <ul>
-                <li>
-                  <a href="https://twitter.com/">Twitter</a>
-                </li>
-                <li>
-                  <a href="https://facebook.com/">Facebook</a>
-                </li>
-                <li>
-                  <a href="https://instagram.com/">Instagram</a>
-                </li>
-                <li>
-                  <a href="https://linkedin.com/">LinkedIn</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 text-center">
-            <p>
-              &copy; {new Date().getFullYear()} Your Website. All Rights
-              Reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
